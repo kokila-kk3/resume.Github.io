@@ -1,0 +1,36 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main  # Change this if your default branch is different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build and Push Docker Image
+        run: |
+          gcloud auth configure-docker
+          docker build -t gcr.io/nava-test-451305/resume-site .
+          docker push gcr.io/nava-test-451305/resume-site
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy resume-site \
+            --image gcr.io/nava-test-451305/resume-site \
+            --platform managed \
+            --region asia-south1 \
+            --allow-unauthenticated
