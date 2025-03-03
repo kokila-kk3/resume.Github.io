@@ -74,7 +74,7 @@ body {
 }
 .section-hero
 {
-  background-color: #0000FF;
+  background-color: #ADD8E6;
   
   
 }
@@ -142,7 +142,7 @@ body {
 .Project,
 .Hobbies,
 .Contact{
-   background-color: #0000FF;
+   background-color:  #ADD8E6;
 }
 
 
@@ -183,7 +183,7 @@ body {
   padding: 4rem 0;
   border-radius: 10px;
   box-shadow: 0 1rem 4rem  rgb(48, 124, 144);
-  background-color: #fffffff1;
+  background-color:  #FFFFFF;
   
 }
 .UG:hover,
@@ -212,7 +212,7 @@ body {
   box-shadow: 0 1rem 4rem  rgb(48, 124, 144);
   padding: 1rem 4.8rem 1rem 4.8rem;
   border-radius: 100px;
-   background-color: #0000FF
+   background-color: #ADD8E6;
   
 }
 .HTML:hover,
@@ -277,7 +277,7 @@ body {
 .Omnifood{
   width: 25%;
   border-radius: 50px;
-  background-color: #0000FF;
+  background-color: #ADD8E6;
   box-shadow: 0 1rem 4rem  rgb(48, 124, 144);
   padding: 2rem 0;
 }
@@ -342,7 +342,7 @@ body {
   flex-direction: column;
   gap: 4rem;
   border: 5px solid #3dd3d3c1;
-  background-color: #0000FF;
+  background-color: #ADD8E6;
   opacity: 0.7;
   border-radius: 10%;
   width: 50%;
