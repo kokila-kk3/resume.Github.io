@@ -3,7 +3,7 @@ name: Deploy to Firebase Hosting
 on:
   push:
     branches:
-      - firebase  # Change this to your deployment branch if different
+       firebase  
 
 jobs:
   deploy:
