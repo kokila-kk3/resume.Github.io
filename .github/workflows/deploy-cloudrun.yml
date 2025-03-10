@@ -3,7 +3,7 @@ name: Deploy Portfolio to Cloud Run
 on:
   push:
     branches:
-      - main
+      - firebase
 
 jobs:
   deploy:
