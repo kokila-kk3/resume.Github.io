@@ -1,42 +1,30 @@
-name: Deploy Portfolio to Cloud Run
+name: Deploy to Firebase Hosting
 
 on:
   push:
     branches:
-      - main
+      - firebase  # Change this if your deployment branch is different
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          credentials_json: ${{  secrets.FIREBASE_SERVICE_ACCOUNT }}
+          node-version: 18
 
-      - name: Set up gcloud CLI
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ secrets.MY_PORTFOLIO_PROJECT_ID }}
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
 
-      - name: Configure Docker Authentication
-        run: |
-          gcloud auth configure-docker asia-south1-docker.pkg.dev
+      - name: Set up Firebase authentication
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > "$HOME/firebase-key.json"
 
-      - name: Build and push Docker image
-        run: |
-          IMAGE_NAME="asia-south1-docker.pkg.dev/${{ secrets.MY_PORTFOLIO_PROJECT_ID }}/cloud-run/portfolio"
-          docker build -t "$IMAGE_NAME" .
-          docker push "$IMAGE_NAME"
-
-      - name: Deploy portfolio to Cloud Run  
-        run: |
-          gcloud run deploy portfolio-service \
-            --image=asia-south1-docker.pkg.dev/${{ secrets.MY_PORTFOLIO_PROJECT_ID }}/cloud-run/portfolio \
-            --region=asia-south1 \
-            --platform=managed \
-            --allow-unauthenticated \
-            --port=8080
+      - name: Deploy to Firebase Hosting
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase.json
+        run: firebase deploy --only hosting
