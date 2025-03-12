@@ -25,6 +25,8 @@ jobs:
         run: npm install  # 🔄 Fix: Ensure dependencies are installed
 
       - name: Authenticate Firebase
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > $HOME/firebase-key.json
           export GOOGLE_APPLICATION_CREDENTIALS="$HOME/firebase-key.json"
