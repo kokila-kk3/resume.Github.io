@@ -1,20 +1,29 @@
-name: Create Release on Tag Push
+name: Automated Tagging and Release
 
 on:
   push:
-    tags:
-      - 'v*'  # Runs on any tag that starts with "v"
+    branches:
+      - main
 
 jobs:
-  release:
+  tag-and-release:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          generate_release_notes: true
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create Tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
+          git push origin "v${{ github.run_number }}"
+
+      - name: Create Release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ github.run_number }}"
+          release_name: "Release v${{ github.run_number }}"
+          body: "Automated release created from push to main"
